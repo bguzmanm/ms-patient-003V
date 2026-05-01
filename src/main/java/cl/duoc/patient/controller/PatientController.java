@@ -1,14 +1,14 @@
 package cl.duoc.patient.controller;
 
+import cl.duoc.patient.dto.PatientRequestDto;
 import cl.duoc.patient.dto.PatientResponseDto;
 import cl.duoc.patient.model.Patient;
 import cl.duoc.patient.service.PatientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +31,12 @@ public class PatientController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(service.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<PatientResponseDto> create(@Valid @RequestBody PatientRequestDto dto) {
+        PatientResponseDto createdPatient = service.create(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPatient);
     }
 
 }
