@@ -1,5 +1,6 @@
 package cl.duoc.patient.controller.handler;
 
+import feign.RetryableException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,12 +25,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<Map<String, String>> handlerIOException(IOException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put("message", ex.getMessage());
-        return ResponseEntity.badRequest().body(errors);
-    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handlerGeneral(Exception ex) {

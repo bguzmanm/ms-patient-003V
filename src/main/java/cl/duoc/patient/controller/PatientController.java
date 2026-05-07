@@ -30,11 +30,17 @@ public class PatientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PatientResponseDto> findById(@PathVariable Long id) {
-        PatientResponseDto patient = service.findById(id);
-        if (patient == null) {
+        try {
+            PatientResponseDto patient = service.findById(id);
+            if (patient == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(service.findById(id));
+
+        } catch (Exception e ) {
+            logger.error(e.getMessage());
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping
